@@ -1,0 +1,21 @@
+scala> val sum: (Int, Int) => Int = _+_
+scala> sum(3,4)
+val res1: Int = 7
+scala> def sum(x: Int, y: Int): Int = x + y
+scala> def currieSum(x: Int)(y: Int): Int = x + y
+scala> println(sum(10,12))
+22
+scala> println(currieSum(10)(sum(12,20)))
+42
+scala> val increment = currieSum(1)
+scala> currieSum(increment(1))(1)
+val res6: Int = 3
+scala> val increment: (Int) => Int = _ + 1
+scala> currieSum(increment(1))(1)
+val res8: Int = 3
+scala> val increment: Int => Int = currieSum(1)
+scala> println(increment(2))
+3
+scala> val curriedSumAsFun: Int => Int => Int = x => y => x+y
+scala> curriedSumAsFun(10)(20)
+val res9: Int = 30
