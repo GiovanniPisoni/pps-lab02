@@ -1,0 +1,48 @@
+Recursive function for power of a number:
+
+    Standard recursion:
+        scala> def power(base: Double, exp: Int): Double = exp match
+             |     case 0 => 1
+             |     case n if n>0 => base * power(base, exp - 1)
+             |
+        def power(base: Double, exp: Int): Double
+        scala> println(power(2,0))
+        1.0
+        scala> println(power(2,2))
+        4.0
+        scala> println(power(1000,2))
+        1000000.0
+
+    Tail recursion:
+
+        scala> def powerTail(base: Double, exponent: Int): Double =
+             |   @annotation.tailrec
+             |   def _power(exp: Int, acc: Double): Double = exp match
+             |     case 0 => acc
+             |     case _ => _power(exp - 1, acc * base)
+             |   _power(exponent,1)
+             |
+        def powerTail(base: Double, exponent: Int): Double
+        scala> println(powerTail(10,2))
+        100.0
+        scala> println(powerTail(50,2))
+        2500.0
+        scala> println(powerTail(2,8))
+        256.0
+
+Function to reverse the digits:
+
+    scala> def reverseDigit(n: Int): Int =
+         |   @annotation.tailrec
+         |   def _reverse(n: Int, acc: Int): Int = n match
+         |      case 0 => acc
+         |      case _ => _reverse(n / 10, acc * 10 + n % 10)
+         |   _reverse(n, 0)
+         |
+    def reverseDigit(n: Int): Int
+    scala> reverseDigit(1234)
+    val res8: Int = 4321
+    scala> reverseDigit(167531)
+    val res9: Int = 135761
+    scala> reverseDigit(0)
+    val res10: Int = 0
