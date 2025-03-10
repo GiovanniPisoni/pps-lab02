@@ -1,55 +1,150 @@
 Function literal:
 
-scala> val positive: Int => String = _ match
-     |   case x if x>=0 => "positive"
-     |   case x if x<0 => "negative"
-val positive: Int => String = Lambda/0x000002a2815f49c8@29701f1f
-scala> println(positive(2))
-positive
-scala> println(positive(-2))
-negative
-scala> println(positive(0))
-positive
+    scala> val positive: Int => String = _ match
+         |   case x if x>=0 => "positive"
+         |   case x if x<0 => "negative"
+    val positive: Int => String = Lambda/0x000002a2815f49c8@29701f1f
+    scala> println(positive(2))
+    positive
+    scala> println(positive(-2))
+    negative
+    scala> println(positive(0))
+    positive
 
 Method syntax:
 
-scala> def positive(x: Int): String = x match
-     |     case x if x>=0 => "positive"
-     |     case x if x<0 => "negative"
-     |
-def positive(x: Int): String
-scala> println(positive(2))
-positive
-scala> println(positive(-2))
-negative
-scala> println(positive(0))
-positive
+    scala> def positive(x: Int): String = x match
+         |     case x if x>=0 => "positive"
+         |     case x if x<0 => "negative"
+         |
+    def positive(x: Int): String
+    scala> println(positive(2))
+    positive
+    scala> println(positive(-2))
+    negative
+    scala> println(positive(0))
+    positive
 
 neg function:
 
-scala> def neg(f:String=>Boolean): String => Boolean = v => true
-def neg(f: String => Boolean): String => Boolean
-scala> def neg(f:String=>Boolean): String => Boolean = v => f(v)
-def neg(f: String => Boolean): String => Boolean
-scala> def neg(f:String=>Boolean): String => Boolean = v => !f(v)
-def neg(f: String => Boolean): String => Boolean
-scala> val empty: String => Boolean = _ == ""
-val empty: String => Boolean = Lambda/0x000002a2815f76e0@77d5a3ee
-scala> val f = neg(empty)
-val f: String => Boolean = Lambda/0x000002a2816241f8@630d7bce
-scala> val f = neg(empty)("c")
-val f: Boolean = true
+    scala> def neg(f:String=>Boolean): String => Boolean = v => true
+    def neg(f: String => Boolean): String => Boolean
+    scala> def neg(f:String=>Boolean): String => Boolean = v => f(v)
+    def neg(f: String => Boolean): String => Boolean
+    scala> def neg(f:String=>Boolean): String => Boolean = v => !f(v)
+    def neg(f: String => Boolean): String => Boolean
+    scala> val empty: String => Boolean = _ == ""
+    val empty: String => Boolean = Lambda/0x000002a2815f76e0@77d5a3ee
+    scala> val f = neg(empty)
+    val f: String => Boolean = Lambda/0x000002a2816241f8@630d7bce
+    scala> val f = neg(empty)("c")
+    val f: Boolean = true
 
 Neg whit generics:
 
-scala> def neg[X](f:X=>Boolean): X => Boolean = v => !f(v)
-def neg[X](f: X => Boolean): X => Boolean
-scala> val isZero: Int => Boolean = _ match
-     |   case x if x == 0 => true
-     |   case _ => false
-     |
-val isZero: Int => Boolean = Lambda/0x000002a281625f20@78a689e7
-scala> val f = neg(isZero)(2)
-val f: Boolean = true
-scala> val f = neg(isZero)(0)
-val f: Boolean = false
+    scala> def neg[X](f:X=>Boolean): X => Boolean = v => !f(v)
+    def neg[X](f: X => Boolean): X => Boolean
+    scala> val isZero: Int => Boolean = _ match
+         |   case x if x == 0 => true
+         |   case _ => false
+         |
+    val isZero: Int => Boolean = Lambda/0x000002a281625f20@78a689e7
+    scala> val f = neg(isZero)(2)
+    val f: Boolean = true
+    scala> val f = neg(isZero)(0)
+    val f: Boolean = false
+
+Currying:
+
+    val p1: <CurriedFunType>:
+
+        scala> val p1: Int => Int => Boolean => Boolean = x => y => z => (x <= y) == z
+        val p1: Int => Int => Boolean => Boolean = Lambda/0x000001dd3c4fd3f0@4ed19b69
+        scala> println(p1(2)(3)(true))
+        true
+        scala> println(p1(3)(2)(true))
+        false
+        scala> println(p1(3)(2)(false))
+        true
+        scala> p1
+        val res4: Int => Int => Boolean => Boolean = Lambda/0x000001dd3c4fd3f0@4ed19b69
+        scala> p1(3)
+        val res5: Int => Boolean => Boolean = Lambda/0x000001dd3c5303f0@6fab0d15
+        scala> p1(3)(2)
+        val res6: Boolean => Boolean = Lambda/0x000001dd3c575000@5145dddc
+
+    val p2: <NonCurriedFunType>:
+
+        scala> val p2: (Int, Int, Boolean) => Boolean = _<=_ == _
+        val p2: (Int, Int, Boolean) => Boolean = Lambda/0x000001dd3c577680@949165f
+        scala> println(p2(2, 3, true))
+        true
+        scala> println(p2(3, 2, true))
+        false
+        scala> println(p2(3, 2, false))
+        true
+
+    def p3(...)(...)(...): ... = ...:
+
+        scala> def p3(x:Int)(y:Int)(z:Boolean): Boolean = x <= y == z
+        def p3(x: Int)(y: Int)(z: Boolean): Boolean
+        scala> println(p3(2)(3)(true))
+        true
+        scala> println(p3(2)(3)(false))
+        false
+        scala> println(p3(3)(2)(false))
+        true
+        scala> println(p3(3)(2)(true))
+        false
+        scala> p3
+        val res3: Int => Int => Boolean => Boolean = Lambda/0x000001dd3c5e1908@24c7563b
+        scala> p3(3)
+        val res1: Int => Boolean => Boolean = Lambda/0x000001dd3c5e09a8@347c7b
+        scala> p3(3)(2)
+        val res2: Boolean => Boolean = Lambda/0x000001dd3c5e1158@57bd0b3c
+
+    def p4(...): ... = ...:
+
+        scala> def p3(x:Int, y:Int, z:Boolean): Boolean = x <= y == z
+        def p3(x: Int, y: Int, z: Boolean): Boolean
+        scala> println(p3(3, 2, true))
+        false
+        scala> println(p3(3, 2, false))
+        true
+        scala> println(p3(2, 3, true))
+        true
+
+Functional compositions:
+
+    scala> def composeFun(f: Int => Int, g: Int => Int): Int => Int = x => f(g(x))
+    def composeFun(f: Int => Int, g: Int => Int): Int => Int
+    scala> val composed = println(composeFun(f, g)(5))
+    9
+
+    Generics:
+
+        scala> def composeFunGen[A,B,C](f: B => C, g: A => B): A => C = x => f(g(x))
+        def composeFunGen[A, B, C](f: B => C, g: A => B): A => C
+        scala> val addOne: Int => Double = _ + 1.0
+        val addOne: Int => Double = Lambda/0x000001dd3c6087e0@35a6f370
+        scala> val timesTwo: Double => String = x => s"Result: ${x * 2}"
+        val timesTwo: Double => String = Lambda/0x000001dd3c608fb0@37533190
+        println(composeFunGen(timesTwo, addOne)(5))
+        Result: 12.0
+
+Functional compositions with 3 arbitrary functions:
+
+    scala> def compose3Fun[A,B,C,D](f: C => D, g: B => C, h: A => B): A => D = x => f(g(h(x)))
+    def compose3Fun[A, B, C, D](f: C => D, g: B => C, h: A => B): A => D
+    scala> val addOne: Int => Double = _ + 1.0
+    val addOne: Int => Double = Lambda/0x000001dd3c60a108@41058886
+    scala> val mul3: Double => Double = _ * 3.0
+    val mul3: Double => Double = Lambda/0x000001dd3c60a8d8@5bcc2416
+    scala> val timesTwo: Double => String = x => s"Result: ${x * 2}"
+    val timesTwo: Double => String = Lambda/0x000001dd3c60b0a8@3d2887e0
+    scala> val composed = compose3Fun(timesTwo, mul3, addOne)
+    val composed: Int => String = Lambda/0x000001dd3c60ba50@409e0e69
+    scala> println(composed(5))
+    Result: 36.0
+    scala> println(compose3Fun(timesTwo, mul3, addOne)(5))
+    Result: 36.0
