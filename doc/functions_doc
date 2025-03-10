@@ -1,0 +1,55 @@
+Function literal:
+
+scala> val positive: Int => String = _ match
+     |   case x if x>=0 => "positive"
+     |   case x if x<0 => "negative"
+val positive: Int => String = Lambda/0x000002a2815f49c8@29701f1f
+scala> println(positive(2))
+positive
+scala> println(positive(-2))
+negative
+scala> println(positive(0))
+positive
+
+Method syntax:
+
+scala> def positive(x: Int): String = x match
+     |     case x if x>=0 => "positive"
+     |     case x if x<0 => "negative"
+     |
+def positive(x: Int): String
+scala> println(positive(2))
+positive
+scala> println(positive(-2))
+negative
+scala> println(positive(0))
+positive
+
+neg function:
+
+scala> def neg(f:String=>Boolean): String => Boolean = v => true
+def neg(f: String => Boolean): String => Boolean
+scala> def neg(f:String=>Boolean): String => Boolean = v => f(v)
+def neg(f: String => Boolean): String => Boolean
+scala> def neg(f:String=>Boolean): String => Boolean = v => !f(v)
+def neg(f: String => Boolean): String => Boolean
+scala> val empty: String => Boolean = _ == ""
+val empty: String => Boolean = Lambda/0x000002a2815f76e0@77d5a3ee
+scala> val f = neg(empty)
+val f: String => Boolean = Lambda/0x000002a2816241f8@630d7bce
+scala> val f = neg(empty)("c")
+val f: Boolean = true
+
+Neg whit generics:
+
+scala> def neg[X](f:X=>Boolean): X => Boolean = v => !f(v)
+def neg[X](f: X => Boolean): X => Boolean
+scala> val isZero: Int => Boolean = _ match
+     |   case x if x == 0 => true
+     |   case _ => false
+     |
+val isZero: Int => Boolean = Lambda/0x000002a281625f20@78a689e7
+scala> val f = neg(isZero)(2)
+val f: Boolean = true
+scala> val f = neg(isZero)(0)
+val f: Boolean = false
