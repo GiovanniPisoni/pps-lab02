@@ -143,7 +143,7 @@ object Lab02 extends App:
   println(reverseDigit(1))
 
   //Task 4, Svolto da solo
-  //Test:
+  //Test: https://github.com/GiovanniPisoni/pps-lab02/blob/main/src/test/scala/ArithmeticExpressionsTest.scala
   //Sum type to represent arithmetic expressions
   enum Expr:
     case Literal (v: Int)
