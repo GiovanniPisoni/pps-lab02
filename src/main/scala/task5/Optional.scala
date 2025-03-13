@@ -61,4 +61,18 @@ object Optionals:
      * @tparam B the type of the result of the function
      * @return the result of applying the function to the value of the optional if it is Maybe, otherwise Empty
      */
-    def map[A, B](optional: Optional[A], f: A => B): Optional[B] = ???
+    def map[A, B](optional: Optional[A], f: A => B): Optional[B] = optional match
+      case Maybe(value) => Optional.Maybe(f(value))
+      case Empty() => Empty()
+
+    /**
+     * filter returns Empty if the optional is Empty or the value does not satisfy the predicate f, Maybe otherwise.
+     *
+     * @param optional the optional to filter
+     * @param f the predicate to apply to the value of the optional
+     * @tparam A the type of the optional
+     * @return Maybe if the optional is Maybe and the value satisfies the predicate, Empty otherwise
+     */
+    def filter[A](optional: Optional[A], f: A => Boolean): Optional[A] = optional match
+      case Maybe(value) if f(value) => Maybe(value)
+      case _ => Empty()
