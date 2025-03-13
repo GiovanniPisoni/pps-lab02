@@ -174,3 +174,7 @@ object Lab02 extends App:
   println("Expr Literal: " + show(Expr.Literal(literal)))
   println(s"Expr Add of: $showAdd Result: $evaluateAdd")
   println(s"Expr Multiply of: $showMul Result: $evaluateMul")
+
+  //Task 5, Svolto da solo
+  //Code: https://github.com/GiovanniPisoni/pps-lab02/blob/main/src/main/scala/task5/Optional.scala
+  //Test: https://github.com/GiovanniPisoni/pps-lab02/blob/main/src/test/scala/task5/OptionalTest.scala
