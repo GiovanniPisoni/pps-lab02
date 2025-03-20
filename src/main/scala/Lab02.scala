@@ -32,7 +32,7 @@ object Lab02 extends App:
   //Function literal
   val positive: Int => String = _ match
     case x if x>=0 => "positive"
-    case x if x<0 => "negative"
+    case _ => "negative"
 
   println(positive(2))
   println(positive(-2))
@@ -41,7 +41,7 @@ object Lab02 extends App:
   //Method syntax
   def pos(x: Int): String = x match
     case x if x>=0 => "positive"
-    case x if x<0 => "negative"
+    case _ => "negative"
 
   println(pos(2))
   println(pos(-2))
